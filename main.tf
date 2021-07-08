@@ -1,7 +1,20 @@
 provider "aws" {
   region = "us-east-1"
   alias  = "aws_cloudfront"
+   assume_role {
+    role_arn = "arn:aws:iam::953040238593:role/SandboxPowerUser"
+  } 
 }
+
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = ">= 2.7.0"
+#       configuration_aliases = [ aws.aws_cloudfront ]
+#     }
+#   }
+# }
 
 locals {
   default_certs = var.use_default_domain ? ["default"] : []
