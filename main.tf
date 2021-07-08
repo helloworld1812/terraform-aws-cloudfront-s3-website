@@ -1,20 +1,20 @@
-provider "aws" {
-  region = "us-east-1"
-  alias  = "aws_cloudfront"
-   assume_role {
-    role_arn = "arn:aws:iam::953040238593:role/SandboxPowerUser"
-  } 
-}
-
-# terraform {
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws"
-#       version = ">= 2.7.0"
-#       configuration_aliases = [ aws.aws_cloudfront ]
-#     }
-#   }
+# provider "aws" {
+#   region = "us-east-1"
+#   alias  = "aws_cloudfront"
+#    assume_role {
+#     role_arn = "arn:aws:iam::953040238593:role/SandboxPowerUser"
+#   } 
 # }
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 2.7.0"
+      configuration_aliases = [ aws.east1 ]
+    }
+  }
+}
 
 locals {
   default_certs = var.use_default_domain ? ["default"] : []
@@ -25,7 +25,7 @@ locals {
 data "aws_acm_certificate" "acm_cert" {
   count    = var.use_default_domain ? 0 : 1
   domain   = coalesce(var.acm_certificate_domain, "*.${var.hosted_zone}")
-  provider = aws.aws_cloudfront
+  provider = aws.east1
   //CloudFront uses certificates from US-EAST-1 region only
   statuses = [
     "ISSUED",
