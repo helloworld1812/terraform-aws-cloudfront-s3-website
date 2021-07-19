@@ -60,6 +60,12 @@ resource "aws_s3_bucket" "s3_bucket" {
   versioning {
     enabled = true
   }
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+  
   policy = data.aws_iam_policy_document.s3_bucket_policy.json
   tags   = var.tags
 }
