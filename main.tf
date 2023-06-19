@@ -3,7 +3,7 @@
 #   alias  = "aws_cloudfront"
 #    assume_role {
 #     role_arn = "arn:aws:iam::953040238593:role/SandboxPowerUser"
-#   } 
+#   }
 # }
 
 terraform {
@@ -65,7 +65,16 @@ resource "aws_s3_bucket" "s3_bucket" {
     index_document = "index.html"
     error_document = "error.html"
   }
-  
+
+  server_side_encryption_configuration {
+    rule {
+      bucket_key_enabled = var.s3_sse_configuration.conf.bucket_key_enabled
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = var.s3_sse_configuration.conf.apply_sse_by_default.sse_algorithm
+      }
+    }
+  }
+
   policy = data.aws_iam_policy_document.s3_bucket_policy.json
   tags   = var.tags
 }
@@ -108,6 +117,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   depends_on = [
     aws_s3_bucket.s3_bucket
   ]
+
+  web_acl_id        = var.web_acl_id
 
   origin {
     domain_name = "${var.domain_name}.s3.amazonaws.com"
