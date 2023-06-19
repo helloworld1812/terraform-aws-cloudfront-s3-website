@@ -32,3 +32,25 @@ variable "upload_sample_file" {
   default     = false
   description = "Upload sample html file to s3 bucket"
 }
+
+variable "web_acl_id" {
+  default     = null
+  type        = string
+  description = "web acl id for the cdn"
+}
+
+variable "s3_sse_configuration" {
+  type        = map(object({
+    bucket_key_enabled     = bool
+    apply_sse_by_default   = map(string)
+  }))
+  default     = {
+    conf = {
+      bucket_key_enabled     = false
+      apply_sse_by_default   = {
+        "sse_algorithm"      = "AES256"
+      }
+    }
+  }
+  description = "s3 server side encryption configuration"
+}
