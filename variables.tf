@@ -54,3 +54,7 @@ variable "s3_sse_configuration" {
   }
   description = "s3 server side encryption configuration"
 }
+variable "minimum_protocol_version" {
+  default     = "TLSv1.2_2021"
+  description = "Minimum TLS protocol version for CloudFront viewer certificate"
+}
