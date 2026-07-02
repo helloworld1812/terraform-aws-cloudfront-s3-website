@@ -58,3 +58,9 @@ variable "minimum_protocol_version" {
   default     = "TLSv1.2_2021"
   description = "Minimum TLS protocol version for CloudFront viewer certificate"
 }
+
+variable "response_headers_policy_id" {
+  type        = string
+  default     = null
+  description = "ID of an aws_cloudfront_response_headers_policy to attach to the default cache behavior"
+}
