@@ -148,6 +148,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
     target_origin_id = "s3-cloudfront"
 
+    response_headers_policy_id = var.response_headers_policy_id
+
     forwarded_values {
       query_string = false
 
