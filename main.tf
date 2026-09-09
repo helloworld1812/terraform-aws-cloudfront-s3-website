@@ -162,6 +162,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
+
+    dynamic "lambda_function_association" {
+      for_each = var.lambda_function_associations
+      content {
+        event_type   = lambda_function_association.value.event_type
+        lambda_arn   = lambda_function_association.value.lambda_arn
+        include_body = false
+      }
+    }
   }
 
   price_class = var.price_class

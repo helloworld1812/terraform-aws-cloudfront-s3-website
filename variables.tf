@@ -64,3 +64,12 @@ variable "response_headers_policy_id" {
   default     = null
   description = "ID of an aws_cloudfront_response_headers_policy to attach to the default cache behavior"
 }
+
+variable "lambda_function_associations" {
+  description = "Lambda@Edge associations for the default cache behavior (e.g. a viewer-request auth gate). Each entry: event_type + the QUALIFIED lambda version ARN."
+  type = list(object({
+    event_type = string
+    lambda_arn = string
+  }))
+  default = []
+}
